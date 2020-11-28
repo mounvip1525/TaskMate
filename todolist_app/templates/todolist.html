@@ -26,31 +26,31 @@
         <div class="col-lg-2"></div>
     </form>
     <br>
-        <table class="table table-bordered">
+        <table class="table table-bordered text-center">
             <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Task</th>
-                    <th scope="col">Done ? </th>
-                    <th scope="col">Delete</th>
-                    <th scope="col">Edit</th>
+                <tr class="row">
+                    <th class="col-7">Task</th>
+                    <th class="col-3">Done ? </th>
+                    <th class="col-1">Delete</th>
+                    <th class="col-1">Edit</th>
                 </tr>
             </thead>
             <tbody>
             {% if all_tasks %}
                 {% for obj in all_tasks %}
                     {% if obj.done %}
-                        <tr class="table-success">
-                            <th scope="row">{{ obj.id }} | {{obj.task}}</th>
-                            <td><a href="{% url 'pending_task' obj.id %}">Mark as Pending</a></td>
-                            <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
-                            <td><a href="{% url 'edit_task' obj.id %}">Edit</a></td>
+                        <tr class="table-success row">
+                            <th class="col-7 text-left">{{obj.task}}</th>
+                            <td class="col-3"><a href="{% url 'pending_task' obj.id %}"><button type="button" class="btn btn-outline-secondary">Mark as Pending</button></a></td>
+                            <td class="col-1"><a href="{% url 'edit_task' obj.id %}"><button type="button" class="btn btn-outline-info">Edit</button></a></td>
+                            <td class="col-1"><a href="{% url 'delete_task' obj.id %}"><button type="button" class="btn btn-outline-danger">Delete</button></a></td>
                         </tr>
                     {% else %}
-                        <tr>
-                            <th scope="row">{{ obj.id }} | {{obj.task}}</th>
-                            <td><a href="{% url 'completed_task' obj.id %}">Mark Completed</a></td>
-                            <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
-                            <td><a href="{% url 'edit_task' obj.id %}">Edit</a></td>
+                        <tr class="table-light row">
+                            <th class="text-left col-7"> {{obj.task}}</th>
+                            <td class="col-3"><a href="{% url 'completed_task' obj.id %}"><button type="button" class="btn btn-outline-success">Mark as Completed</button></a></td>
+                            <td class="col-1"><a href="{% url 'edit_task' obj.id %}"><button type="button" class="btn btn-outline-info">Edit</button></a></td>
+                            <td class="col-1"><a href="{% url 'delete_task' obj.id %}"><button type="button" class="btn btn-outline-danger">Delete</button></a></td>
                         </tr>
                     {% endif %}
                 {% endfor %}
