@@ -5,7 +5,57 @@
 {% endblock title %}
 
 {% block content %}
-<div class="container">
-<h1>{{welcome_text}}
-</div>
+    <div class="container"> 
+    <br> 
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    <form method="POST" class="row">
+     {% comment %} safety purposes {% endcomment %}
+    {% csrf_token %}
+        <div class="col-lg-2"></div>
+        <input type="text" class="form-control col-lg-6" placeholder="New Task" name="task">
+        <button type="submit" class="btn btn-primary col-lg-2">Add it?</button>
+        <div class="col-lg-2"></div>
+    </form>
+    <br>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Task</th>
+                    <th scope="col">Done ? </th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if all_tasks %}
+                {% for obj in all_tasks %}
+                    {% if obj.done %}
+                        <tr class="table-success">
+                            <th scope="row">{{ obj.id }} | {{obj.task}}</th>
+                            <td><a href="{% url 'pending_task' obj.id %}">Mark as Pending</a></td>
+                            <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
+                            <td><a href="{% url 'edit_task' obj.id %}">Edit</a></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <th scope="row">{{ obj.id }} | {{obj.task}}</th>
+                            <td><a href="{% url 'completed_task' obj.id %}">Mark Completed</a></td>
+                            <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
+                            <td><a href="{% url 'edit_task' obj.id %}">Edit</a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
 {% endblock content %}
