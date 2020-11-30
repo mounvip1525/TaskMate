@@ -19,11 +19,12 @@ def todolist(request):
         form=TaskForm(request.POST or None)
         # print(form)
         if form.is_valid():
+            form.save(commit=False).owner=request.user #commit=false is used for delaying the form save into the database and we can customize acc. to our rquirements and then save.and .owner... setting the user to the logged in user
             form.save()
         messages.success(request,('New Task Added!'))
         return redirect('todolist')
     else:
-        all_tasks=TaskModel.objects.all()
+        all_tasks=TaskModel.objects.filter(owner=request.user)
         
         # context={
         #     'welcome_text':"hey there Home"
@@ -35,7 +36,10 @@ def todolist(request):
     
 def delete_task(request,task_id):
     task=TaskModel.objects.get(pk=task_id)  
-    task.delete()
+    if task.owner == request.user:
+        task.delete()
+    else:
+        messages.error(request,("Access denied,you can't delete this"))
     return redirect('todolist')
 
 def edit_task(request,task_id):
@@ -52,8 +56,11 @@ def edit_task(request,task_id):
 
 def completed_task(request,task_id):
     task=TaskModel.objects.get(pk=task_id)  
-    task.done=True
-    task.save()
+    if task.owner == request.user:
+        task.done=True
+        task.save()
+    else:
+        messages.error(request,("Access denied,you can't change this"))
     return redirect('todolist')
 
 
