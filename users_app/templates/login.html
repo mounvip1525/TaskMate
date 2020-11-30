@@ -23,7 +23,8 @@
         {% csrf_token %}
         {% comment %} we are accessing the form from what django.contrib.auth provided us with from the LoginView,hence its just form|crispy {% endcomment %}
         {{ form|crispy }} 
-        <button class="btn btn-primary mb-5 col-md-2 offset-md-5" type="submit">Login</button>
+        {% comment %} on successful submit, will be redirected to the profiles routes by default,to chnage it, chnage the redirection in settings {% endcomment %}
+        <button class="btn btn-primary mb-5 col-md-2 offset-md-5" type="submit">Login</button> 
     </form>
 </div>
 {% endblock content %}

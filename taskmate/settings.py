@@ -125,3 +125,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
 
 CRISPY_TEMPLATE_PACK='bootstrap4' #by-default cripsy_forms supoort only bootsrap2
+
+LOGIN_REDIRECT_URL='todolist' #on successful login,it will be redirected to the todolist page instead to redirected to the profiles route given as a default by django
+LOGIN_URL='login' #redirecting to the login page if directly the todolist page is accessed without logging in
